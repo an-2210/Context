@@ -24,7 +24,7 @@ signals can become a shopping schema with a discount sub-schema.
 ## Flow
 
 ```text
-Inference records -> Schema packets -> Memory -> Studio features
+Inference records -> Schema packets -> Memory -> Playground features
 ```
 
 ## Current Code
@@ -37,7 +37,7 @@ The v0 engine supports:
 - `createSchemaPacket(group)`
 
 Schema packets include category, schema type, optional sub-schema, confidence,
-attributes, and source trails. They are technical objects for Memory and Studio,
+attributes, and source trails. They are technical objects for Memory and Playground,
 not basic landing-page copy.
 
 ## Development
