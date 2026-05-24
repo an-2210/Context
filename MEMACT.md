@@ -1,46 +1,85 @@
-# Memact
+# Memact Contributor Handoff
 
-Memact is a user-controlled context layer for app personalization.
+Memact is a playground where apps personalize using context the user can actually see and control.
+
+It is still a playground, even if the old Playground repo is no longer the main place to contribute.
+
+The current playground is Schema: app categories, context shapes, examples, prompts, and tests.
+
+The short version:
 
 Apps send context. App categories give it shape. Wiki gives users control.
 
-## Current core
+## The idea
 
-- Access handles consent, apps, API keys, scopes, and permissions.
-- Wiki is the user-facing context layer where users add, edit, approve, reject, delete, and share context.
-- Schema defines app category schemas.
-- Memory stores accepted context, history, retrieval, and app-safe summaries.
-- Contracts define shared shapes.
-- SDK lets apps connect to Memact.
+Most apps personalize quietly. They guess from clicks, isolated profiles, and hidden assumptions.
 
-## Open-source contribution model
+Memact does something different. Apps can send or propose context, but the user gets a Wiki where that context can be reviewed, edited, rejected, deleted, or shared.
 
-Memact open-source contributors mainly work on app category schemas.
+So if a music app notices a user keeps replaying Brazilian phonk, it should not secretly build a weird hidden profile and call it intelligence.
 
-Contributors do not build random generic features. Pick an app category and define how context should work there.
+It can propose something readable:
 
-Examples: music, video-streaming, movie-booking, shopping, learning, news-articles, fitness, travel, food-delivery, creator-tools, productivity, and AI assistants.
+"Prefers Brazilian phonk, especially high-energy tracks."
+
+The user can accept it, edit it, or reject it.
+
+## What contributors do now
+
+Contributors are not expected to build random generic features.
+
+Pick an app category and define how context should work there.
+
+Examples:
+
+- music
+- video-streaming
+- movie-booking
+- shopping
+- learning
+- news-articles
+- fitness
+- travel
+- food-delivery
+- creator-tools
+- productivity
+- AI assistants
 
 For each category, contributors can add:
 
-- category schema
 - useful context fields
-- example app context dumps
-- normalization rules
-- user-facing Wiki entry templates
-- user prompts for missing context
+- messy app context examples
+- expected Wiki outputs
+- simple normalization rules
+- user-facing entry templates
+- prompts for missing context
 - access suggestions
 - tests
 
-## Contributor assignments
+## Example: music apps
 
-1. Category schema contributor: pick an app category and define what user context matters.
-2. Context example contributor: add realistic messy app context examples and expected Wiki outputs.
-3. Normalization contributor: write simple rules that convert messy app context into clean Wiki entries.
-4. User prompt contributor: write prompts that help users add missing context.
-5. Entry template contributor: write clean Wiki entry templates for category context.
-6. Access suggestion contributor: suggest what permissions apps in a category should request.
-7. Test contributor: add test cases for schemas, normalization, privacy, and public/private behavior.
+A music app may send:
+
+"User replayed Brazilian phonk playlists 18 times this month and skipped slow acoustic playlists."
+
+A category schema can shape that into:
+
+"Prefers high-energy Brazilian phonk."
+
+But the Wiki is where the user stays in control. The user may edit it to:
+
+"I like Brazilian phonk mostly while working out."
+
+That edited user context is stronger than the app guess.
+
+## Parts
+
+- Access handles consent, apps, API keys, scopes, and permissions.
+- Wiki is where users add, edit, approve, reject, delete, and share context.
+- Schema defines app category schemas.
+- Memory stores accepted context, history, retrieval, and app-safe summaries.
+- Contracts defines shared shapes.
+- SDK lets apps connect to Memact.
 
 ## Rules
 
@@ -54,6 +93,8 @@ For each category, contributors can add:
 - Keep user-facing copy simple.
 - Do not bring back Capture, Inference, or Intent as core product language.
 
-## Best short explanation
+## Best explanation
 
-Apps send context. App categories give it shape. Wiki gives users control.
+Memact is a playground for user-controlled app context.
+
+Apps bring context. Categories organize it. Wiki keeps the user in charge.
