@@ -8,28 +8,25 @@ permissions:
   pull-requests: write
 
 jobs:
-  request-reviewer:
-    name: Request reviewers
+  request-reviewers:
+    name: Request Memact org reviewers
     if: ${{ github.event.pull_request.draft == false }}
     runs-on: ubuntu-latest
     steps:
-      - name: Request reviewers from allowlist
+      - name: Request reviewers from Memact org members
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.MEMACT_ORG_REVIEWER_TOKEN || github.token }}
           script: |
+            const orgLogin = 'Memact';
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pullNumber = context.payload.pull_request.number;
             const author = context.payload.pull_request.user.login;
-
-            const allowedRepoOwner = 'Memact';
             const maxReviewers = 5;
-            const reviewerAllowlist = [
-              'keepsloading',
-            ];
 
-            if (owner.toLowerCase() !== allowedRepoOwner.toLowerCase()) {
-              core.info(`Skipping reviewer assignment because ${owner}/${repo} is not owned by ${allowedRepoOwner}.`);
+            if (owner.toLowerCase() !== orgLogin.toLowerCase()) {
+              core.info(`Skipping reviewer assignment because ${owner}/${repo} is not owned by ${orgLogin}.`);
               return;
             }
 
@@ -64,7 +61,22 @@ jobs:
               }
             }
 
-            const reviewers = reviewerAllowlist
+            let members = [];
+            try {
+              members = await github.paginate(github.rest.orgs.listMembers, {
+                org: orgLogin,
+                role: 'all',
+                per_page: 100,
+              });
+            } catch (error) {
+              core.warning(`Could not list ${orgLogin} org members: ${error.message}`);
+              core.warning('If this org has private membership, set MEMACT_ORG_REVIEWER_TOKEN to a token with read:org access.');
+              return;
+            }
+
+            const reviewers = members
+              .filter((member) => member.type !== 'Bot')
+              .map((member) => member.login)
               .filter((login, index, logins) =>
                 logins.findIndex((candidate) => normalize(candidate) === normalize(login)) === index
               )
@@ -72,7 +84,7 @@ jobs:
               .slice(0, maxReviewers);
 
             if (reviewers.length === 0) {
-              core.info('No eligible reviewers found in allowlist.');
+              core.info('No eligible Memact org members found to request for review.');
               return;
             }
 
