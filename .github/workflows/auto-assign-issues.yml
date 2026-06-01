@@ -78,13 +78,13 @@ jobs:
               });
             };
 
-            if (currentIssue.assignees.length > 0) {
-              await createReply(`@${commenter} this issue is already assigned. Please pick another open issue.`);
+            if (hasLabel('Hard')) {
+              await createReply(`@${commenter} this issue is marked Hard, so a maintainer should assign it manually.`);
               return;
             }
 
-            if (hasLabel('Hard')) {
-              await createReply(`@${commenter} this issue is marked Hard, so a maintainer should assign it manually.`);
+            if (currentIssue.assignees.length > 0) {
+              await createReply(`@${commenter} this issue is already assigned. Please pick another open issue.`);
               return;
             }
 
