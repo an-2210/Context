@@ -73,3 +73,5 @@ Users will see these insights translated into plain language in their Wiki:
 Apps proposing productivity context should request:
 - `productivity.read_preferences` - To read the user's high-level work preferences.
 - `productivity.write_summary` - To propose summarized insights about how the user works.
+
+*(Note: These are suggested draft permission names, not finalized Access contract scopes yet.)*

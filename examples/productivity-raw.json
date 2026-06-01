@@ -1,5 +1,5 @@
 {
-  "schema_version": "memact.inference.v0",
+  "schema_version": "memact.schema_input.v0",
   "generated_at": "2026-06-01T00:00:00.000Z",
   "source": {
     "activity_count": 3
