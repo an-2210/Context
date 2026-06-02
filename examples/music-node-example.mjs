@@ -2,9 +2,12 @@
 // Copy this file, replace the placeholders, and keep the API key on the server.
 // API keys must stay on the server; do not put them in browser code.
 
-const APP_ID = "your-app-id";
-const API_KEY = "your-api-key";
-const CONNECTION_ID = "your-connection-id";
+// Read credentials from environment variables so copied examples don't encourage committing secrets.
+// Example usage (Windows PowerShell): $env:API_KEY = "sk_live_..."; node examples/music-node-example.mjs
+// Example usage (macOS / Linux): export API_KEY="sk_live_..."; node examples/music-node-example.mjs
+const APP_ID = process.env.APP_ID || "your-app-id";
+const API_KEY = process.env.API_KEY || "your-api-key";
+const CONNECTION_ID = process.env.CONNECTION_ID || "your-connection-id";
 
 // This is the proposed music context we want to send for review.
 // Each field describes a preference signal, not a permanent identity claim.
