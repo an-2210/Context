@@ -1,4 +1,5 @@
 import { resolveSchemaLifecycleState, schemaLifecycleLabel } from "./lifecycle.mjs";
+import { buildProductivityAttributes, inferProductivitySubSchema } from "./categories/productivity.mjs";
 
 const DEFAULT_MIN_SUPPORT = 3;
 const DEFAULT_MIN_MEANINGFUL_SCORE = 0.38;
@@ -228,6 +229,7 @@ export function createSchemaPacket(group = [], options = {}) {
   const schemaType = options.schemaType || inferSchemaType(records[0] || {})
   const confidence = round(records.reduce((sum, record) => sum + Number(record.meaningful_score || 0.5), 0) / Math.max(1, records.length))
   const readingAttributes = schemaType === "reading_preferences" ? buildReadingAttributes(records) : {}
+  const productivityAttributes = schemaType === "productivity" ? buildProductivityAttributes(records) : {}
   return {
     schema_version: "memact.schema_packet.v0",
     packet_id: `schema_${slug(`${category}_${schemaType}_${records.length}`)}`,
@@ -238,7 +240,8 @@ export function createSchemaPacket(group = [], options = {}) {
     attributes: {
       record_count: records.length,
       themes: unique(records.flatMap((record) => record.canonical_themes || [])),
-      ...readingAttributes
+      ...readingAttributes,
+      ...productivityAttributes
     },
     sources: records.flatMap((record) => record.sources || []),
     created_at: new Date().toISOString()
@@ -343,6 +346,8 @@ function inferSubSchema(records = []) {
   if (/source|citation|reference/.test(text)) return "sources"
   if (/task|todo|deadline/.test(text)) return "tasks"
   if (/focus|interrupt|overload/.test(text)) return "attention_load"
+  const productivitySubSchema = inferProductivitySubSchema(text)
+  if (productivitySubSchema) return productivitySubSchema
   return "general"
 }
 
