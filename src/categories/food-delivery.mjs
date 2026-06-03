@@ -76,7 +76,7 @@ export const normalizedOutputExamples = [
 export const wikiEntryTemplates = [
   "Ordered {{items_ordered}} from {{restaurant_name}} via {{platform}}.",
   "Had {{cuisine_type}} food delivered in {{delivery_time}} minutes.",
-  "Placed a food order totalling ₹{{order_total}} from {{restaurant_name}}.",
+  "Placed a food order totalling {{order_total}} from {{restaurant_name}}.",
 ];
 
 export const permissionSuggestions = {
